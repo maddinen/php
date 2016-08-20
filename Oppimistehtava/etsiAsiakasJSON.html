@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Asiakastietoportaali</title>
+<meta name="author" content="Marita Klaavu">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+<link rel="stylesheet" href="cssmenu/styles.css">
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="cssmenu/script.js"></script>
+
+<script src="http://code.jquery.com/jquery-2.2.3.js"
+integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4="
+crossorigin="anonymous"></script>
+
+</head>
+<body>
+	<div class="container">
+		<div id='cssmenu'>
+		    <ul>
+		        <li class='active'><a href="index.php">Etusivu</a></li>
+		        <li><a href="uusiAsiakastieto.php">Lisää asiakas</a></li>
+		        <li><a href="kaikkiAsiakkaat.php">Listaa kaikki</a></li>
+		        <li><a href="etsiAsiakasJSON.html">Etsi</a></li>
+		        <li><a href="asetukset.php">Asetukset</a></li>
+		    </ul>
+		</div>	
+		
+			<br><br>
+			
+			<div class="etusivudiv" id="lista">
+			<h2>Etsi asiakastietoa:</h2>
+				<form class="pure-form pure-form-aligned" action="etsiAsiakasJSON.html" method="post">
+					<div class="pure-control-group">
+						<input id="hakukentta" type="text" name="etsi">
+						<input class="pure-button pure-button-primary" style="background-color:#3db2e1;" id="etsi" type="submit" name="submit" value="Etsi"> 
+					</div>
+				</form>
+				<div id="hakutulokset"></div>
+			</div>
+	</div>
+	<script type="text/javascript">
+
+	// AJAX call for autocomplete 
+	$(document).ready(function(){
+		$("#hakukentta").keyup(function(){
+			$.ajax({
+			type: "POST",
+			url: "etsiAsiakasPHP.php",
+			data:'hakusana='+$(this).val(),
+			beforeSend: function(){
+				$("#hakukentta").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+			},
+			success: function(data){
+				$("#hakutulokset").show();
+				$("#hakutulokset").html(data);
+				$("#hakukentta").css("background","#FFF");
+			}
+			});
+		});
+	});
+	//To select customer name
+	function etsiAsiakas(val) {
+	$("#hakukentta").val(val);
+	$("#hakutulokset").hide();
+	}				
+	</script>
+	
+	
+	
+
+</body>
+</html>
+
